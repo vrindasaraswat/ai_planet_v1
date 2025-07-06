@@ -7,6 +7,14 @@
   font-family: Arial, sans-serif;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: #e0e3e5;
+  flex-shrink: 0;
+}
+
 .sidebar {
   width: 200px;
   background: #e0e0e0;
