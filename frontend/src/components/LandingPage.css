@@ -1,0 +1,123 @@
+.landing-page {
+  font-family: Arial, sans-serif;
+  color: #fff;
+  background: #1a2a44;
+  overflow: hidden; /* Remove scrollbars */
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute space between sections */
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: #0d1b2a;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.logo {
+  font-size: 20px;
+}
+
+.logo span {
+  font-size: 12px;
+  color: #a9b7d0;
+}
+
+nav a {
+  margin: 0 15px;
+  color: #a9b7d0;
+  text-decoration: none;
+}
+
+nav .contact-btn {
+  background: #2ecc71;
+  padding: 5px 15px;
+  border-radius: 5px;
+}
+
+.hero {
+  text-align: center;
+  padding: 20px;
+  flex-grow: 1; /* Allow hero to take available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin: 0;
+}
+
+.hero h2 {
+  font-size: 24px;
+  color: #f1c40f;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #a9b7d0;
+}
+
+.cta-buttons {
+  margin-top: 20px;
+}
+
+.cta-buttons button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.get-started {
+  background: #fff;
+  color: #1a2a44;
+}
+
+.book-demo {
+  background: #34495e;
+  color: #fff;
+}
+
+.benefits {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  background: #0d1b2a;
+  flex-shrink: 0; /* Prevent shrinking */
+  height: auto; /* Adjust height dynamically */
+  max-height: 150px; /* Limit height to fit benefits */
+}
+
+.benefit-card {
+  text-align: center;
+  padding: 10px;
+  background: #1b263b;
+  border-radius: 10px;
+  width: 200px; /* Fixed width for consistency */
+}
+
+.benefit-card h3 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.benefit-card p {
+  font-size: 14px;
+  color: #a9b7d0;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background: #0d1b2a;
+  font-size: 14px;
+  color: #a9b7d0;
+  flex-shrink: 0; /* Prevent shrinking */
+}

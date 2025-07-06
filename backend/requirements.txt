@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pymupdf
+openai
+chromadb
+# google-generative-ai
