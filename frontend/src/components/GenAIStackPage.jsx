@@ -7,7 +7,7 @@ import LLMEngineComponent from './LLMEngineComponent';
 import OutputComponent from './OutputComponent';
 import './GenAIStackPage.css';
 
-const initialNodes = [{ id: '1', type: 'userQuery', position: { x: 0, y: 0 }, data: { label: 'User Query' } }];
+const initialNodes = [];
 const initialEdges = [];
 
 const nodeTypes = {
@@ -17,62 +17,57 @@ const nodeTypes = {
   output: OutputComponent,
 };
 
-const GenAIStackPage = () => {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
-  const [chatOpen, setChatOpen] = useState(false);
-  const [chatMessages, setChatMessages] = useState([]);
+const GenAIStackPage = ({ stack }) => {
+  const [nodes, setNodes] = useState(stack ? stack.nodes || initialNodes : initialNodes);
+  const [edges, setEdges] = useState(stack ? stack.edges || initialEdges : initialEdges);
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
   const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
   const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
-  const onDragOver = useCallback((event) => event.preventDefault(), []);
+
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }, []);
+
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
       if (!reactFlowInstance) return;
-      const rect = reactFlowWrapper.current.getBoundingClientRect();
-      const position = reactFlowInstance.screenToFlowPosition({
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
-      });
+
       const type = event.dataTransfer.getData('application/reactflow');
       if (typeof type === 'string' && type) {
-        const newNode = { id: `${nodes.length + 1}`, type, position, data: { label: type.replace(/([A-Z])/g, ' $1').trim() } };
+        const rect = reactFlowWrapper.current.getBoundingClientRect();
+        const position = reactFlowInstance.screenToFlowPosition({
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top,
+        });
+        const newNode = {
+          id: `${nodes.length + 1}`,
+          type,
+          position,
+          data: { label: type.replace(/([A-Z])/g, ' $1').trim() },
+        };
         setNodes((nds) => [...nds, newNode]);
       }
     },
     [reactFlowInstance, nodes.length]
   );
 
-  const handleCreateStack = () => {
-    if (nodes.length > 1 && edges.length > 0) {
-      setChatOpen(true);
-    }
-  };
-
-  const handleChatSubmit = async (message) => {
-    const response = await fetch('http://localhost:8000/query', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: message, workflow: { nodes, edges } }),
-    });
-    const data = await response.json();
-    setChatMessages((msgs) => [...msgs, { text: message, from: 'user' }, { text: data.response, from: 'bot' }]);
-  };
+  console.log('Nodes:', nodes); // Debug log to check if nodes are updating
 
   return (
-    <div className="genai-stack-page" ref={reactFlowWrapper} style={{ height: '100vh', width: '100vw', display: 'flex', overflow: 'hidden' }}>
-      <nav className="sidebar" style={{ overflow: 'hidden' }}>
+    <div className="genai-stack-page" ref={reactFlowWrapper}>
+      <nav className="sidebar">
         <h3>Component Library</h3>
         <div draggable onDragStart={(e) => e.dataTransfer.setData('application/reactflow', 'userQuery')}>User Query</div>
         <div draggable onDragStart={(e) => e.dataTransfer.setData('application/reactflow', 'knowledgeBase')}>Knowledge Base</div>
         <div draggable onDragStart={(e) => e.dataTransfer.setData('application/reactflow', 'llmEngine')}>LLM Engine</div>
         <div draggable onDragStart={(e) => e.dataTransfer.setData('application/reactflow', 'output')}>Output</div>
       </nav>
-      <div className="workspace" style={{ flexGrow: 1, overflow: 'hidden' }}>
+      <div className="workspace">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -84,22 +79,20 @@ const GenAIStackPage = () => {
           nodeTypes={nodeTypes}
           onInit={setReactFlowInstance}
           fitView
-          style={{ height: '100%', width: '100%' }}
         >
           <Controls />
           <Background />
+          {!nodes.length && <p>Drag & drop to get started</p>}
         </ReactFlow>
-        <button onClick={handleCreateStack} className="create-stack-btn" style={{ overflow: 'hidden' }}>Create New Stack</button>
-        {chatOpen && <OutputComponent messages={chatMessages} onSubmit={handleChatSubmit} />}
       </div>
     </div>
   );
 };
 
-export default function WrappedGenAIStackPage() {
+export default function WrappedGenAIStackPage({ stack }) {
   return (
     <ReactFlowProvider>
-      <GenAIStackPage />
+      <GenAIStackPage stack={stack} />
     </ReactFlowProvider>
   );
 }

@@ -57,30 +57,10 @@ header button {
   background: #1a2a44;
   color: #fff;
   overflow: hidden;
-  display: flex; 
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  width: 100%;
-  background: #1a2a44;
-  
 }
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  width: 100%;
-  background: #fff;
-}
-
-
 
 header.landing-header {
   display: flex;
@@ -119,32 +99,59 @@ nav .contact-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   overflow: hidden;
   padding: 20px;
   background: #fff;
 }
 
-.my-stacks-card {
+.my-stacks h2 {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.stacks-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.stack-card {
   background: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 400px;
-  max-width: 90%;
+  width: 200px;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.my-stacks-card h1 {
-  font-size: 24px;
+.stack-card h3 {
+  font-size: 18px;
   color: #2c3e50;
   margin-bottom: 10px;
 }
 
-.my-stacks-card p {
-  font-size: 16px;
+.stack-card p {
+  font-size: 14px;
   color: #7f8c8d;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.edit-btn {
+  padding: 5px 10px;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 .new-stack-btn {
@@ -155,4 +162,121 @@ nav .contact-btn {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.modal-content h3 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.modal-content textarea {
+  height: 100px;
+  resize: none;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create-btn {
+  padding: 8px 16px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* GenAI Stack Page Styles */
+.genai-stack {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 200px;
+  background: #f5f5f5;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.sidebar h3 {
+  font-size: 16px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.sidebar div {
+  padding: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: move;
+  text-align: center;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.workspace {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.workspace p {
+  color: #7f8c8d;
+  font-size: 14px;
 }
