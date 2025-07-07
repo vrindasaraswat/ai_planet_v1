@@ -37,7 +37,7 @@ const GenAIStackPage = ({ stack, setStack }) => {
       setNodes(initialNodes);
       setEdges(initialEdges);
     }
-  }, [stack, nodes, edges]);
+  }, [stack]);
 
   // Update parent stack state only if nodes or edges differ
   useEffect(() => {
@@ -207,10 +207,4 @@ const GenAIStackPage = ({ stack, setStack }) => {
   );
 };
 
-export default function WrappedGenAIStackPage({ stack, setStack }) {
-  return (
-    <ReactFlowProvider>
-      <GenAIStackPage stack={stack} setStack={setStack} />
-    </ReactFlowProvider>
-  );
-}
+export default GenAIStackPage;

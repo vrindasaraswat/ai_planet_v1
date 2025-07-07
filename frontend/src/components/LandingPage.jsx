@@ -1,11 +1,11 @@
 import React from 'react';
 import './LandingPage.css';
 
-const LandingPage = ({ onGetStarted }) => {
+const LandingPage = ({ onGetStarted, onNewStack }) => {
   return (
     <div className="landing-page">
       <header>
-        <div className="logo">
+        <div className="logo" style={{color: '#fff'}}>
           {/* <span role="img" aria-label="globe">🌍</span> */}
           ai planet <span>formerly Phi</span>
         </div>
