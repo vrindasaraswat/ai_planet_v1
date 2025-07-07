@@ -1,4 +1,4 @@
-.landing-page {
+/* .landing-page {
   font-family: Arial, sans-serif;
   color: #fff;
   background: #1A2A44;
@@ -9,7 +9,7 @@
   justify-content: space-between;
   margin: 0;
   padding: 0;
-}
+} */
 
 header {
   display: flex;
@@ -67,14 +67,14 @@ nav {
   margin-left: 20px;
 }
 
-.hero {
+/* .hero {
   text-align: center;
   padding: 80px 20px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
+} */
 
 .hero h1 {
   font-size: 48px;
@@ -118,13 +118,13 @@ nav {
   font-size: 16px;
 }
 
-.benefits-container {
+/* .benefits-container {
   display: flex;
   justify-content: center;
   padding: 20px 0;
   background: linear-gradient(to bottom, #1A2A44 50%, #fff 50%);
   flex-shrink: 0;
-}
+} */
 
 .benefits-box {
   display: flex;
@@ -155,10 +155,52 @@ nav {
   margin: 5px 0;
 }
 
+/* footer {
+  text-align: center;
+  padding: 20px;
+  background: #fff;
+  font-size: 14px;
+  color: #A0A0A0;
+} */
+
+.landing-page {
+  font-family: Arial, sans-serif;
+  color: #fff;
+  background: #1A2A44;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+}
+
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 60vh; /* Limit the hero section height */
+  overflow: hidden; /* Allow scrolling if content overflows */
+}
+
+.benefits-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  background: linear-gradient(to bottom, #1A2A44 50%, #fff 50%);
+  flex-shrink: 0;
+  min-height: 100px; /* Ensure minimum height for benefits */
+}
+
 footer {
   text-align: center;
   padding: 20px;
   background: #fff;
   font-size: 14px;
   color: #A0A0A0;
+  flex-shrink: 0; /* Prevent footer from shrinking */
 }
