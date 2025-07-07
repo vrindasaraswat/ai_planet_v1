@@ -8,7 +8,7 @@
 }
 
 .sidebar {
-  width: 250px;
+  width: 260px;
   background: #fff;
   padding: 10px;
   display: flex;
@@ -17,6 +17,7 @@
   border-right: 1px solid #ddd;
   overflow-y: auto;
   height: 100%;
+  z-index: 2;
 }
 
 .sidebar h3 {
@@ -65,6 +66,7 @@
   background: #fff;
   height: 100%;
   width: 100%;
+  z-index: 1;
 }
 
 .empty-workspace {
@@ -146,4 +148,50 @@
   color: #222;
   font-weight: 500;
   margin-top: 4px;
+}
+
+.config-panel, .stack-controls-bar { display: none !important; }
+
+.floating-build-btn {
+  position: absolute;
+  bottom: 100px;
+  right: 32px;
+  background: #389e5f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 32px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  z-index: 20;
+  transition: background 0.2s;
+}
+.floating-build-btn:hover {
+  background: #2e7d4f;
+}
+
+.chat-with-stack-btn {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 21;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+.chat-with-stack-btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }

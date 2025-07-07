@@ -23,6 +23,8 @@ const GenAIStackPage = ({ stack, setStack }) => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [collapsedSections, setCollapsedSections] = useState({});
+  const [selectedNode, setSelectedNode] = useState(null);
+  const [built, setBuilt] = useState(false);
 
   // Sync with stack prop only when stack changes
   useEffect(() => {
@@ -101,6 +103,10 @@ const GenAIStackPage = ({ stack, setStack }) => {
     [reactFlowInstance]
   );
 
+  const onNodeClick = useCallback((event, node) => {
+    setSelectedNode(node);
+  }, []);
+
   const components = [
     {
       title: 'Components',
@@ -112,6 +118,60 @@ const GenAIStackPage = ({ stack, setStack }) => {
       ],
     },
   ];
+
+  // Connect all core components in order: User Query -> Knowledge Base -> LLM -> Output
+  const connectAllComponents = () => {
+    // Find node ids by type
+    const userQueryNode = nodes.find((n) => n.type === 'userQuery');
+    const knowledgeBaseNode = nodes.find((n) => n.type === 'knowledgeBase');
+    const llmNode = nodes.find((n) => n.type === 'llmEngine');
+    const outputNode = nodes.find((n) => n.type === 'output');
+
+    if (userQueryNode && knowledgeBaseNode && llmNode && outputNode) {
+      const newEdges = [
+        {
+          id: 'e-userQuery-knowledgeBase',
+          source: userQueryNode.id,
+          target: knowledgeBaseNode.id,
+          sourceHandle: 'query',
+          targetHandle: 'query',
+        },
+        {
+          id: 'e-knowledgeBase-llm',
+          source: knowledgeBaseNode.id,
+          target: llmNode.id,
+          sourceHandle: 'context',
+          targetHandle: 'context',
+        },
+        {
+          id: 'e-userQuery-llm',
+          source: userQueryNode.id,
+          target: llmNode.id,
+          sourceHandle: 'query',
+          targetHandle: 'query',
+        },
+        {
+          id: 'e-llm-output',
+          source: llmNode.id,
+          target: outputNode.id,
+          sourceHandle: 'output',
+          targetHandle: 'output',
+        },
+      ];
+      setEdges(newEdges);
+      setBuilt(true);
+    } else {
+      alert('Please add all four components to the canvas to auto-connect.');
+    }
+  };
+
+  // Check if all core components are present
+  const allCorePresent = [
+    'userQuery',
+    'knowledgeBase',
+    'llmEngine',
+    'output',
+  ].every(type => nodes.some(n => n.type === type));
 
   return (
     <div className="genai-stack-page" ref={reactFlowWrapper} style={{ height: '100%', width: '100%' }}>
@@ -167,14 +227,39 @@ const GenAIStackPage = ({ stack, setStack }) => {
             </div>
           )}
         </ReactFlow>
-      </div>
-      <div className="footer-controls">
-        <button className="save-btn">Save</button>
-        <div className="zoom-controls">
-          <button>+</button>
-          <span>-</span>
-          <span>100%</span>
-        </div>
+        <button
+          className="floating-build-btn"
+          onClick={connectAllComponents}
+          disabled={!allCorePresent}
+          style={{ opacity: allCorePresent ? 1 : 0.5, pointerEvents: allCorePresent ? 'auto' : 'none' }}
+        >
+          Build Stack
+        </button>
+        <button
+          className="chat-with-stack-btn"
+          disabled={!built}
+          style={{
+            position: 'absolute',
+            bottom: 32,
+            right: 120,
+            background: '#2563eb',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '50%',
+            width: 56,
+            height: 56,
+            fontSize: 28,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            opacity: built ? 1 : 0.5,
+            pointerEvents: built ? 'auto' : 'none',
+            zIndex: 21,
+          }}
+        >
+          <span role="img" aria-label="chat">💬</span>
+        </button>
       </div>
     </div>
   );
