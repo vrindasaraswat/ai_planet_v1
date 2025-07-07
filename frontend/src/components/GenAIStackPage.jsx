@@ -25,6 +25,10 @@ const GenAIStackPage = ({ stack, setStack }) => {
   const [collapsedSections, setCollapsedSections] = useState({});
   const [selectedNode, setSelectedNode] = useState(null);
   const [built, setBuilt] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatInput, setChatInput] = useState("");
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatLoading, setChatLoading] = useState(false);
 
   // Sync with stack prop only when stack changes
   useEffect(() => {
@@ -199,7 +203,7 @@ const GenAIStackPage = ({ stack, setStack }) => {
           </div>
         ))}
       </nav>
-      <div className="workspace">
+      <div className={`workspace${chatOpen ? ' blurred-bg' : ''}`}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -238,6 +242,7 @@ const GenAIStackPage = ({ stack, setStack }) => {
         <button
           className="chat-with-stack-btn"
           disabled={!built}
+          onClick={() => setChatOpen(true)}
           style={{
             position: 'absolute',
             bottom: 32,
@@ -261,6 +266,71 @@ const GenAIStackPage = ({ stack, setStack }) => {
           <span role="img" aria-label="chat">💬</span>
         </button>
       </div>
+      {chatOpen && (
+        <div className="genai-chat-modal-overlay">
+          <div className="genai-chat-modal">
+            <div className="genai-chat-modal-header">
+              <span className="genai-chat-modal-title">
+                <span className="genai-chat-modal-logo"> <span style={{background:'#22c55e',borderRadius:'50%',padding:'2px 7px',color:'#fff',fontWeight:'bold',marginRight:8}}>ai</span> GenAI Stack Chat</span>
+              </span>
+              <button className="genai-chat-modal-close" onClick={() => setChatOpen(false)}>&times;</button>
+            </div>
+            <div className="genai-chat-modal-content" style={{overflowY:'auto',maxHeight:'340px',width:'100%'}}>
+              {chatMessages.length === 0 && !chatLoading && (
+                <div className="genai-chat-modal-center">
+                  <span className="genai-chat-modal-logo-large"> <span style={{background:'#22c55e',borderRadius:'50%',padding:'8px 18px',color:'#fff',fontWeight:'bold',fontSize:32,marginRight:16}}>ai</span></span>
+                  <div style={{textAlign:'center'}}>
+                    <div className="genai-chat-modal-title" style={{fontSize: '1.25rem', fontWeight: 600, marginBottom: 8}}>GenAI Stack Chat</div>
+                    <div style={{color:'#666',fontSize:'1rem'}}>Start a conversation to test your stack</div>
+                  </div>
+                </div>
+              )}
+              {chatMessages.map((msg, idx) => (
+                <div key={idx} style={{display:'flex',alignItems:'flex-start',marginBottom:18}}>
+                  <span style={{marginRight:12}}>{msg.from === 'user' ? <span style={{fontSize:24}}>🧑‍💻</span> : <span style={{fontSize:24}}>🤖</span>}</span>
+                  <div style={{background: msg.from === 'user' ? '#f3f4f6' : '#e6f9ed',padding:'14px 18px',borderRadius:12,maxWidth:'80%',fontSize:'1.08rem',color:'#222',fontWeight: msg.from === 'user' ? 400 : 500}}>
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+              {chatLoading && (
+                <div style={{marginTop:12,marginLeft:36,color:'#888',fontSize:'1rem'}}>Thinking...</div>
+              )}
+            </div>
+            <form className="genai-chat-modal-form" style={{position:'absolute',left:0,right:0,bottom:32,display:'flex',justifyContent:'center',alignItems:'center'}}
+              onSubmit={e => {
+                e.preventDefault();
+                if (!chatInput.trim()) return;
+                setChatMessages(msgs => [...msgs, { from: 'user', text: chatInput }]);
+                setChatInput("");
+                setChatLoading(true);
+                setTimeout(() => {
+                  setChatMessages(msgs => [...msgs, { from: 'bot', text: `1. Coca-Cola (KO): Coca-Cola's stock has steadily grown over the past 5 years, thanks to diversification into non-soda beverages. The pandemic caused a temporary dip in its stock price, but it has since rebounded. Its consistent dividend payouts make it appealing to long-term investors.\n\n2. PepsiCo (PEP): PepsiCo's stock has shown stable growth, thanks to its diversified portfolio, including food and beverages, which shields it from market volatility. The company's resilience during the pandemic led to a strong recovery, and steady dividends have attracted income-focused investors.\n\nIn conclusion, both companies have demonstrated resilience and steady growth over the past 5 years, appealing to growth and income-focused investors.` }]);
+                  setChatLoading(false);
+                }, 1800);
+              }}
+            >
+              <input
+                className="genai-chat-modal-input"
+                style={{width:'80%',padding:'14px',borderRadius:8,border:'1px solid #e5e7eb',fontSize:'1rem'}}
+                placeholder="Send a message"
+                value={chatInput}
+                onChange={e => setChatInput(e.target.value)}
+                disabled={chatLoading}
+                autoFocus
+              />
+              <button
+                className="genai-chat-modal-send"
+                style={{marginLeft:8,background:'#2563eb',border:'none',borderRadius:'50%',width:44,height:44,display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontSize:22,opacity: chatInput.trim() && !chatLoading ? 1 : 0.7}}
+                type="submit"
+                disabled={!chatInput.trim() || chatLoading}
+              >
+                <span>&#9658;</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
