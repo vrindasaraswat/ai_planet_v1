@@ -27,7 +27,7 @@ const GenAIStackPage = ({ stack, setStack }) => {
   // Sync with stack prop only when stack changes
   useEffect(() => {
     if (stack) {
-      console.log('Syncing stack:', stack); // Debug log
+      console.log('Syncing stack:', stack);
       if (JSON.stringify(nodes) !== JSON.stringify(stack.nodes || initialNodes) || JSON.stringify(edges) !== JSON.stringify(stack.edges || initialEdges)) {
         setNodes(stack.nodes || initialNodes);
         setEdges(stack.edges || initialEdges);
@@ -44,7 +44,7 @@ const GenAIStackPage = ({ stack, setStack }) => {
     if (setStack && stack) {
       const newStack = { ...stack, nodes, edges };
       if (JSON.stringify(newStack.nodes) !== JSON.stringify(stack.nodes) || JSON.stringify(newStack.edges) !== JSON.stringify(stack.edges)) {
-        console.log('Updated stack state:', newStack); // Debug log
+        console.log('Updated stack state:', newStack);
         setStack(newStack);
       }
     }
@@ -54,7 +54,7 @@ const GenAIStackPage = ({ stack, setStack }) => {
   useEffect(() => {
     if (!reactFlowInstance && nodes.length > 0) {
       console.error('ReactFlow instance not initialized, forcing fallback');
-      setReactFlowInstance({ screenToFlowPosition: () => ({ x: 0, y: 0 }) }); // Fallback
+      setReactFlowInstance({ screenToFlowPosition: () => ({ x: 0, y: 0 }) });
     }
   }, [reactFlowInstance, nodes.length]);
 
@@ -69,38 +69,26 @@ const GenAIStackPage = ({ stack, setStack }) => {
   const onDragStart = (event, type) => {
     event.dataTransfer.setData('application/reactflow', type);
     event.dataTransfer.effectAllowed = 'move';
-    console.log('Drag started:', type, 'Data set:', event.dataTransfer.getData('application/reactflow')); // Enhanced log
+    console.log('Drag started:', type, 'Data set:', event.dataTransfer.getData('application/reactflow'));
   };
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
-    console.log('Drag over workspace, clientX/Y:', event.clientX, event.clientY); // Log position
   }, []);
 
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-      console.log('Drop event triggered, raw data:', event.dataTransfer.getData('application/reactflow'), 'Instance:', reactFlowInstance); // Enhanced log
-      if (!reactFlowInstance) {
-        console.error('ReactFlow instance not available');
-        return;
-      }
+      if (!reactFlowInstance) return;
 
       const type = event.dataTransfer.getData('application/reactflow');
-      console.log('Processed type:', type); // Log processed type
       if (typeof type === 'string' && type) {
-        const rect = reactFlowWrapper.current?.getBoundingClientRect();
-        if (!rect) {
-          console.error('reactFlowWrapper ref not available');
-          return;
-        }
-        console.log('Drop rect:', rect); // Log rect for debugging
+        const rect = reactFlowWrapper.current.getBoundingClientRect();
         const position = reactFlowInstance.screenToFlowPosition({
           x: event.clientX - rect.left,
           y: event.clientY - rect.top,
         });
-        console.log('Calculated position:', position); // Log calculated position
         const newNode = {
           id: `node_${Date.now()}`,
           type,
@@ -108,9 +96,6 @@ const GenAIStackPage = ({ stack, setStack }) => {
           data: { label: type.replace(/([A-Z])/g, ' $1').trim() },
         };
         setNodes((nds) => [...nds, newNode]);
-        console.log('New node added:', newNode); // Log new node
-      } else {
-        console.error('Invalid drop type:', type);
       }
     },
     [reactFlowInstance]
@@ -118,20 +103,45 @@ const GenAIStackPage = ({ stack, setStack }) => {
 
   const components = [
     {
-      title: 'User Query',
-      items: [{ type: 'userQuery', label: 'User Query', config: { placeholder: 'Enter your query here' } }],
-    },
-    {
-      title: 'LLM (OpenAI)',
-      items: [{ type: 'llmEngine', label: 'LLM (OpenAI)', config: { model: 'GPT-4-Mini', apiKey: '********', prompt: 'You are a helpful PDF assistant...', temperature: 0.75 } }],
-    },
-    {
-      title: 'Knowledge Base',
-      items: [{ type: 'knowledgeBase', label: 'Knowledge Base', config: { fileUpload: 'Upload File', embeddingModel: 'text-embedding-3-large', apiKey: '********' } }],
-    },
-    {
-      title: 'Output',
-      items: [{ type: 'output', label: 'Output', config: { outputText: 'Output will be generated based on query' } }],
+      title: 'Components',
+      items: [
+        { type: 'userQuery', label: 'Chat With AI' },
+        { type: 'userQuery', label: 'Input' },
+        { type: 'llmEngine', label: 'LLM (OpenAI)' },
+        { type: 'knowledgeBase', label: 'Knowledge Base' },
+        { type: 'output', label: 'Output' },
+        { type: 'userQuery', label: 'ContentWriter' },
+        { type: 'userQuery', label: 'ContentSummarizer' },
+        { type: 'userQuery', label: 'InformationFinder' },
+        { type: 'userQuery', label: 'EditStack' },
+        { type: 'userQuery', label: 'NewStack' },
+        { type: 'userQuery', label: 'smartAI' },
+        { type: 'userQuery', label: 'write content' },
+        { type: 'userQuery', label: 'summarize information' },
+        { type: 'userQuery', label: 'find relevant data' },
+        { type: 'userQuery', label: 'assistant tool' },
+        { type: 'userQuery', label: 'platform interface' },
+        { type: 'userQuery', label: 'dashboard' },
+        { type: 'userQuery', label: 'manage' },
+        { type: 'userQuery', label: 'organize' },
+        { type: 'userQuery', label: 'create' },
+        { type: 'userQuery', label: 'generate' },
+        { type: 'userQuery', label: 'assist' },
+        { type: 'userQuery', label: 'help' },
+        { type: 'userQuery', label: 'support' },
+        { type: 'userQuery', label: 'technology innovation' },
+        { type: 'userQuery', label: 'digital solution' },
+        { type: 'userQuery', label: 'user-friendly' },
+        { type: 'userQuery', label: 'efficient' },
+        { type: 'userQuery', label: 'productive' },
+        { type: 'userQuery', label: 'smart' },
+        { type: 'userQuery', label: 'intelligent' },
+        { type: 'userQuery', label: 'automated system' },
+        { type: 'userQuery', label: 'application' },
+        { type: 'userQuery', label: 'software' },
+        { type: 'userQuery', label: 'online' },
+        { type: 'userQuery', label: 'web service' },
+      ],
     },
   ];
 
@@ -149,7 +159,7 @@ const GenAIStackPage = ({ stack, setStack }) => {
                 {section.items.map((item) => (
                   <div
                     key={item.type}
-                    draggable="true" // Explicitly set draggable
+                    draggable
                     onDragStart={(e) => onDragStart(e, item.type)}
                     className="draggable-item"
                   >
@@ -161,7 +171,7 @@ const GenAIStackPage = ({ stack, setStack }) => {
           </div>
         ))}
       </nav>
-      <div className="workspace" style={{ height: '100%', width: 'calc(100% - 250px)', position: 'relative' }}>
+      <div className="workspace">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -176,9 +186,22 @@ const GenAIStackPage = ({ stack, setStack }) => {
           style={{ height: '100%', width: '100%' }}
         >
           <Controls />
-          <Background />
-          {!nodes.length && <p>Drag & drop to get started</p>}
+          <Background variant="dots" gap={12} size={1} />
+          {!nodes.length && (
+            <div className="empty-workspace">
+              <span role="img" aria-label="drag">👇</span>
+              <p>Drag & drop to get started</p>
+            </div>
+          )}
         </ReactFlow>
+      </div>
+      <div className="footer-controls">
+        <button className="save-btn">Save</button>
+        <div className="zoom-controls">
+          <button>+</button>
+          <span>-</span>
+          <span>100%</span>
+        </div>
       </div>
     </div>
   );

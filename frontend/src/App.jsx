@@ -13,6 +13,8 @@ function CreateStackModal({ onClose, onCreate }) {
     e.preventDefault();
     if (name && description) {
       onCreate({ name, description, nodes: [], edges: [] });
+      setName('');
+      setDescription('');
     }
   };
 
@@ -26,11 +28,13 @@ function CreateStackModal({ onClose, onCreate }) {
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            style={{ marginBottom: '10px' }}
           />
           <textarea
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            style={{ marginBottom: '10px', height: '80px' }}
           />
           <div className="modal-actions">
             <button type="button" className="cancel-btn" onClick={onClose}>Cancel</button>
@@ -46,18 +50,19 @@ function AppContent({ currentPage, onGetStarted, onNewStack, stacks, setStacks, 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCreateStack = (stack) => {
-    console.log('Creating new stack:', stack); // Debug log
+    console.log('Creating new stack:', stack);
     const newStack = { ...stack, id: Date.now(), nodes: [], edges: [] };
     try {
       setStacks(prevStacks => {
         const updatedStacks = [...prevStacks, newStack];
-        console.log('Updated stacks:', updatedStacks); // Debug log
+        console.log('Updated stacks:', updatedStacks);
         return updatedStacks;
       });
       setSelectedStack(newStack);
-      setCurrentPage('genai-stack'); // Use the passed prop
+      setCurrentPage('genai-stack');
+      setIsModalOpen(false); // Close modal after creation
     } catch (error) {
-      console.error('Error in handleCreateStack:', error); // Catch and log any errors
+      console.error('Error in handleCreateStack:', error);
     }
   };
 
@@ -75,8 +80,17 @@ function AppContent({ currentPage, onGetStarted, onNewStack, stacks, setStacks, 
     landing: <LandingPage onGetStarted={onGetStarted} />,
     'my-stacks': (
       <div className="my-stacks">
-        <h2>My Stacks</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '0 20px' }}>
+          <h2>My Stacks</h2>
+        </div>
         <div className="stacks-grid">
+          {!stacks.length && (
+            <div className="stack-card empty-state">
+              <h3>Create New Stack</h3>
+              <p>Start building your generative AI apps with our essential tools and frameworks</p>
+              <button className="new-stack-btn" onClick={handleNewStackClick}>+ New Stack</button>
+            </div>
+          )}
           {stacks.map((stack) => (
             <div key={stack.id} className="stack-card">
               <h3>{stack.name}</h3>
@@ -85,7 +99,6 @@ function AppContent({ currentPage, onGetStarted, onNewStack, stacks, setStacks, 
             </div>
           ))}
         </div>
-        <button className="new-stack-btn" onClick={handleNewStackClick}>+ New Stack</button>
         {isModalOpen && <CreateStackModal onClose={() => setIsModalOpen(false)} onCreate={handleCreateStack} />}
       </div>
     ),
@@ -110,15 +123,15 @@ function App() {
   };
 
   return (
-    <div className="app" style={{ touchAction: 'auto', pointerEvents: 'auto' }}>
+    <div className="app" style={{ touchAction: 'auto', pointerEvents: 'auto', backgroundColor: '#666' }}>
       <div className="main-content">
         {currentPage === 'landing' ? (
           <LandingPage onGetStarted={handleGetStarted} />
         ) : (
           <>
-            <header>
+            <header style={{ backgroundColor: '#444', color: '#fff', padding: '10px 20px' }}>
               <h2>GenAI Stack</h2>
-              <button onClick={handleNewStack}>+ New Stack</button>
+              <button className="new-stack-btn" onClick={handleNewStack} style={{ backgroundColor: '#2ecc71', color: '#fff' }}>+ New Stack</button>
             </header>
             {currentPage === 'genai-stack' ? (
               <ReactFlowProvider>

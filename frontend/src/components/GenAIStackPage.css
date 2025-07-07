@@ -1,7 +1,7 @@
 .genai-stack-page {
   display: flex;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   overflow: hidden;
   background: #f5f5f5;
   font-family: Arial, sans-serif;
@@ -47,11 +47,11 @@
   border-radius: 5px;
   margin: 5px 0;
   cursor: move;
-  text-align: center;
+  text-align: left;
   font-size: 14px;
   color: #2c3e50;
   user-select: none;
-  touch-action: none; /* Prevent touch interference */
+  touch-action: none;
 }
 
 .draggable-item:hover {
@@ -61,18 +61,57 @@
 .workspace {
   flex-grow: 1;
   position: relative;
-  overflow: auto; /* Changed to auto for better debugging */
+  overflow: auto;
   background: #fff;
   height: 100%;
   width: 100%;
-  touch-action: none; /* Prevent touch interference */
 }
 
-.workspace p {
-  color: #7f8c8d;
-  font-size: 14px;
+.empty-workspace {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-align: center;
+  color: #7f8c8d;
+}
+
+.empty-workspace span {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.footer-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.save-btn {
+  padding: 8px 16px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.zoom-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.zoom-controls button {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.zoom-controls span {
+  padding: 5px 10px;
 }
