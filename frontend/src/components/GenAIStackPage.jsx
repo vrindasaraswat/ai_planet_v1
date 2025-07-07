@@ -105,42 +105,10 @@ const GenAIStackPage = ({ stack, setStack }) => {
     {
       title: 'Components',
       items: [
-        { type: 'userQuery', label: 'Chat With AI' },
         { type: 'userQuery', label: 'Input' },
         { type: 'llmEngine', label: 'LLM (OpenAI)' },
         { type: 'knowledgeBase', label: 'Knowledge Base' },
         { type: 'output', label: 'Output' },
-        { type: 'userQuery', label: 'ContentWriter' },
-        { type: 'userQuery', label: 'ContentSummarizer' },
-        { type: 'userQuery', label: 'InformationFinder' },
-        { type: 'userQuery', label: 'EditStack' },
-        { type: 'userQuery', label: 'NewStack' },
-        { type: 'userQuery', label: 'smartAI' },
-        { type: 'userQuery', label: 'write content' },
-        { type: 'userQuery', label: 'summarize information' },
-        { type: 'userQuery', label: 'find relevant data' },
-        { type: 'userQuery', label: 'assistant tool' },
-        { type: 'userQuery', label: 'platform interface' },
-        { type: 'userQuery', label: 'dashboard' },
-        { type: 'userQuery', label: 'manage' },
-        { type: 'userQuery', label: 'organize' },
-        { type: 'userQuery', label: 'create' },
-        { type: 'userQuery', label: 'generate' },
-        { type: 'userQuery', label: 'assist' },
-        { type: 'userQuery', label: 'help' },
-        { type: 'userQuery', label: 'support' },
-        { type: 'userQuery', label: 'technology innovation' },
-        { type: 'userQuery', label: 'digital solution' },
-        { type: 'userQuery', label: 'user-friendly' },
-        { type: 'userQuery', label: 'efficient' },
-        { type: 'userQuery', label: 'productive' },
-        { type: 'userQuery', label: 'smart' },
-        { type: 'userQuery', label: 'intelligent' },
-        { type: 'userQuery', label: 'automated system' },
-        { type: 'userQuery', label: 'application' },
-        { type: 'userQuery', label: 'software' },
-        { type: 'userQuery', label: 'online' },
-        { type: 'userQuery', label: 'web service' },
       ],
     },
   ];
@@ -187,10 +155,15 @@ const GenAIStackPage = ({ stack, setStack }) => {
         >
           <Controls />
           <Background variant="dots" gap={12} size={1} />
-          {!nodes.length && (
-            <div className="empty-workspace">
-              <span role="img" aria-label="drag">👇</span>
-              <p>Drag & drop to get started</p>
+          {nodes.length === 0 && (
+            <div className="empty-workspace-centered">
+              <div className="empty-icon-circle">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="20" r="20" fill="#fff" stroke="#e5e7eb" strokeWidth="2" />
+                  <path d="M13 20h14M20 13v14" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div className="empty-workspace-text">Drag & drop to get started</div>
             </div>
           )}
         </ReactFlow>

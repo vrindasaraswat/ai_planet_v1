@@ -115,3 +115,35 @@
 .zoom-controls span {
   padding: 5px 10px;
 }
+
+.empty-workspace-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.empty-icon-circle {
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  border: 1.5px solid #e5e7eb;
+}
+
+.empty-workspace-text {
+  font-size: 1.15rem;
+  color: #222;
+  font-weight: 500;
+  margin-top: 4px;
+}
