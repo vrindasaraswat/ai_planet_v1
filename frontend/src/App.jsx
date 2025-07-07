@@ -12,7 +12,7 @@ function CreateStackModal({ onClose, onCreate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name && description) {
-      onCreate({ name, description, nodes: [], edges: [] }); // Initialize with empty nodes and edges
+      onCreate({ name, description, nodes: [], edges: [] });
     }
   };
 
@@ -42,13 +42,23 @@ function CreateStackModal({ onClose, onCreate }) {
   );
 }
 
-function AppContent({ currentPage, onGetStarted, onNewStack, stacks, setStacks, selectedStack, setSelectedStack }) {
+function AppContent({ currentPage, onGetStarted, onNewStack, stacks, setStacks, selectedStack, setSelectedStack, setCurrentPage }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCreateStack = (stack) => {
-    setStacks([...stacks, { ...stack, id: Date.now() }]);
-    setSelectedStack({ ...stack, id: Date.now(), nodes: [], edges: [] }); // Set selected stack for new workflow
-    setCurrentPage('genai-stack'); // Navigate to genai-stack after creation
+    console.log('Creating new stack:', stack); // Debug log
+    const newStack = { ...stack, id: Date.now(), nodes: [], edges: [] };
+    try {
+      setStacks(prevStacks => {
+        const updatedStacks = [...prevStacks, newStack];
+        console.log('Updated stacks:', updatedStacks); // Debug log
+        return updatedStacks;
+      });
+      setSelectedStack(newStack);
+      setCurrentPage('genai-stack'); // Use the passed prop
+    } catch (error) {
+      console.error('Error in handleCreateStack:', error); // Catch and log any errors
+    }
   };
 
   const handleEditStack = (stackId) => {
@@ -79,7 +89,7 @@ function AppContent({ currentPage, onGetStarted, onNewStack, stacks, setStacks, 
         {isModalOpen && <CreateStackModal onClose={() => setIsModalOpen(false)} onCreate={handleCreateStack} />}
       </div>
     ),
-    'genai-stack': <GenAIStackPage stack={selectedStack} />,
+    'genai-stack': <GenAIStackPage stack={selectedStack} setStack={setSelectedStack} />,
   };
 
   return pages[currentPage] || pages['landing'];
@@ -95,7 +105,7 @@ function App() {
   };
 
   const handleNewStack = () => {
-    setSelectedStack(null);
+    setSelectedStack({ name: 'New Stack', description: 'New workflow', nodes: [], edges: [] });
     setCurrentPage('genai-stack');
   };
 
@@ -112,10 +122,10 @@ function App() {
             </header>
             {currentPage === 'genai-stack' ? (
               <ReactFlowProvider>
-                <AppContent currentPage={currentPage} onGetStarted={handleGetStarted} onNewStack={handleNewStack} stacks={stacks} setStacks={setStacks} selectedStack={selectedStack} setSelectedStack={setSelectedStack} />
+                <AppContent currentPage={currentPage} onGetStarted={handleGetStarted} onNewStack={handleNewStack} stacks={stacks} setStacks={setStacks} selectedStack={selectedStack} setSelectedStack={setSelectedStack} setCurrentPage={setCurrentPage} />
               </ReactFlowProvider>
             ) : (
-              <AppContent currentPage={currentPage} onGetStarted={handleGetStarted} onNewStack={handleNewStack} stacks={stacks} setStacks={setStacks} selectedStack={selectedStack} setSelectedStack={setSelectedStack} />
+              <AppContent currentPage={currentPage} onGetStarted={handleGetStarted} onNewStack={handleNewStack} stacks={stacks} setStacks={setStacks} selectedStack={selectedStack} setSelectedStack={setSelectedStack} setCurrentPage={setCurrentPage} />
             )}
           </>
         )}

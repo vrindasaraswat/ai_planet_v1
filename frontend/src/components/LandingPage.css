@@ -1,7 +1,7 @@
 .landing-page {
   font-family: Arial, sans-serif;
   color: #fff;
-  background: #1a2a44;
+  background: #1A2A44;
   overflow: hidden;
   height: 100vh;
   display: flex;
@@ -14,36 +14,62 @@
 header {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
-  background: #0d1b2a;
+  padding: 20px 40px;
+  /* background: #fff; */
   flex-shrink: 0;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
   font-size: 20px;
+  /* color: #1A2A44; */
+  display: flex;
+  align-items: center;
 }
 
 .logo span {
   font-size: 12px;
-  color: #a9b7d0;
+  color: #A0A0A0;
+  margin-left: 5px;
 }
 
-nav a {
-  margin: 0 15px;
-  color: #a9b7d0;
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  margin: 0 20px;
+  color: #A0A0A0;
   text-decoration: none;
+  cursor: pointer;
+  position: relative;
 }
 
-nav .contact-btn {
-  background: #2ecc71;
-  padding: 5px 15px;
+.nav-item:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #F4A261;
+}
+
+.contact-btn {
+  background: #28A745;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 20px;
 }
 
 .hero {
   text-align: center;
-  padding: 50px 20px;
+  padding: 80px 20px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -53,71 +79,86 @@ nav .contact-btn {
 .hero h1 {
   font-size: 48px;
   margin: 0;
+  line-height: 1.2;
+  color: #fff;
 }
 
-.hero h2 {
-  font-size: 24px;
-  color: #f1c40f;
+.highlight {
+  color: #F4A261;
 }
 
 .hero p {
   font-size: 18px;
-  color: #a9b7d0;
+  color: #A0A0A0;
+  margin: 20px 0;
 }
 
 .cta-buttons {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
-.cta-buttons button {
-  padding: 10px 20px;
-  margin: 0 10px;
-  border: none;
+.get-started-btn {
+  background: #fff;
+  color: #1A2A44;
+  border: 1px solid #fff;
+  padding: 12px 30px;
   border-radius: 5px;
   cursor: pointer;
-  pointer-events: auto;
+  margin-right: 15px;
+  font-size: 16px;
 }
 
-.get-started {
-  background: #fff;
-  color: #1a2a44;
-}
-
-.book-demo {
-  background: #34495e;
+.book-demo-btn {
+  background: #34495E;
   color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.benefits {
+.benefits-container {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  padding: 20px;
-  background: #0d1b2a;
+  padding: 20px 0;
+  background: linear-gradient(to bottom, #1A2A44 50%, #fff 50%);
   flex-shrink: 0;
+}
+
+.benefits-box {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  background: #2C3E50;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .benefit-card {
   text-align: center;
-  padding: 20px;
-  background: #1b263b;
-  border-radius: 10px;
+  padding: 10px;
+  color: #fff;
+  width: 200px;
 }
 
 .benefit-card h3 {
   font-size: 24px;
   margin: 0;
+  color: #efecea;
 }
 
 .benefit-card p {
   font-size: 14px;
-  color: #a9b7d0;
+  color: #A0A0A0;
+  margin: 5px 0;
 }
 
 footer {
   text-align: center;
   padding: 20px;
-  background: #0d1b2a;
+  background: #fff;
   font-size: 14px;
-  color: #a9b7d0;
+  color: #A0A0A0;
 }

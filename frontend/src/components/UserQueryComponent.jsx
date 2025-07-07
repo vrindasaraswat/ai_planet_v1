@@ -4,7 +4,7 @@ const UserQueryComponent = ({ data }) => {
   return (
     <div style={{ padding: 10, border: '1px solid #ccc', borderRadius: 4 }}>
       <h4>{data.label}</h4>
-      <input placeholder="Enter query..." />
+      <input placeholder={data.config?.placeholder || 'Enter query...'} />
     </div>
   );
 };

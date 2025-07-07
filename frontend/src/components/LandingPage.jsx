@@ -5,39 +5,48 @@ const LandingPage = ({ onGetStarted }) => {
   return (
     <div className="landing-page">
       <header>
-        <div className="logo">ai planet <span>formerly DPii</span></div>
+        <div className="logo">
+          {/* <span role="img" aria-label="globe">🌍</span> */}
+          ai planet <span>formerly Phi</span>
+        </div>
         <nav>
-          <a href="#products">Products</a>
-          <a href="#models">Models</a>
-          <a href="#solutions">Solutions</a>
-          <a href="#community">Community</a>
+          <div className="nav-item">Products</div>
+          <div className="nav-item">Models</div>
+          <div className="nav-item">Solutions</div>
+          <div className="nav-item">Community</div>
+          <button className="contact-btn">Contact Us</button>
         </nav>
       </header>
       <section className="hero">
-        <h1>Deploy GenAI Apps</h1>
-        <h2>in minutes, not months.</h2>
+        <h1>
+          Deploy <span className="highlight">GenAI Apps</span>
+          <br />
+          in minutes, not months.
+        </h1>
         <p>Integrate reliable, private and secure GenAI solutions within your enterprise environment</p>
         <div className="cta-buttons">
-          <button className="get-started" onClick={onGetStarted}>Get Started</button>
-          <button className="book-demo">Book Demo</button>
+          <button className="get-started-btn" onClick={onGetStarted}>Get Started</button>
+          <button className="book-demo-btn">Book Demo</button>
         </div>
       </section>
-      <section className="benefits">
-        <div className="benefit-card">
-          <h3>20x</h3>
-          <p>Faster time to market</p>
-        </div>
-        <div className="benefit-card">
-          <h3>up to 30x</h3>
-          <p>Infra Cost Savings</p>
-        </div>
-        <div className="benefit-card">
-          <h3>10x</h3>
-          <p>Productivity Gains</p>
+      <section className="benefits-container">
+        <div className="benefits-box">
+          <div className="benefit-card">
+            <h3>20x</h3>
+            <p>Speed Launch</p>
+          </div>
+          <div className="benefit-card">
+            <h3>upto 30x</h3>
+            <p>Expense Reduction</p>
+          </div>
+          <div className="benefit-card">
+            <h3>10x</h3>
+            <p>Output Enhancement</p>
+          </div>
         </div>
       </section>
       <footer>
-        <p>Trusted by leading organizations and 300K+ global community</p>
+        <p>Reliable by reputable companies and a worldwide network</p>
       </footer>
     </div>
   );
